@@ -58,7 +58,7 @@ const addKing = () => {
     let item = kings.value.find((item) => item.uid == king.uid);
     if (item) item.count += 1;
     else kings.value.push({ uid: king.uid, user: king.user, count: 1 });
-    kings.value.sort((a, b) => a.count - b.count);
+    kings.value.sort((a, b) => b.count - a.count);
     localStorage.setItem("kings", JSON.stringify(kings.value));
 };
 
