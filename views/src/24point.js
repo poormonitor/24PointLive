@@ -80,23 +80,21 @@ class ONode {
     }
 
     equals(haystack) {
-        if (haystack instanceof ONode) {
-            return (
-                (((this.left === haystack.left &&
-                    this.right === haystack.right) ||
-                    (this.right === haystack.left &&
-                        this.left === haystack.right)) &&
-                    (this.op === haystack.op ||
-                        trans[this.op] === trans[haystack.op])) ||
-                this.toString() === haystack.toString()
-            );
-        }
-        return this.sum === haystack;
+        return this.toString() === haystack.toString();
     }
 }
 
 function construct(nodes, ops) {
     return [
+        new ONode(
+            ops[2],
+            new VNode(nodes[0]),
+            new ONode(
+                ops[1],
+                new ONode(ops[0], new VNode(nodes[1]), new VNode(nodes[2])),
+                new VNode(nodes[3])
+            )
+        ),
         new ONode(
             ops[2],
             new ONode(

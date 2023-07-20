@@ -68,26 +68,30 @@ class ONode:
         return le + self.op + re
 
     def __eq__(self, haystack):
-        if isinstance(haystack, ONode):
-            return (
-                (
-                    (self.left == haystack.left and self.right == haystack.right)
-                    or (self.right == haystack.left and self.left == haystack.right)
-                )
-                and (self.op == haystack.op or trans[self.op] == trans[haystack.op])
-            ) or repr(self) == repr(haystack)
-        return self.sum == haystack
+        return repr(self) == repr(haystack)
 
 
 def construct(nodes, ops):
-    return ONode(
-        ops[2],
-        ONode(ops[1], ONode(ops[0], VNode(nodes[0]), VNode(nodes[1])), VNode(nodes[2])),
-        VNode(nodes[3]),
-    ), ONode(
-        ops[2],
-        ONode(ops[0], VNode(nodes[0]), VNode(nodes[1])),
-        ONode(ops[1], VNode(nodes[2]), VNode(nodes[3])),
+    return (
+        ONode(
+            ops[2],
+            VNode(nodes[0]),
+            ONode(
+                ops[1], ONode(ops[0], VNode(nodes[1]), VNode(nodes[2])), VNode(nodes[3])
+            ),
+        ),
+        ONode(
+            ops[2],
+            ONode(
+                ops[1], ONode(ops[0], VNode(nodes[0]), VNode(nodes[1])), VNode(nodes[2])
+            ),
+            VNode(nodes[3]),
+        ),
+        ONode(
+            ops[2],
+            ONode(ops[0], VNode(nodes[0]), VNode(nodes[1])),
+            ONode(ops[1], VNode(nodes[2]), VNode(nodes[3])),
+        ),
     )
 
 
