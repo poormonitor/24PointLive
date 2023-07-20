@@ -64,6 +64,7 @@ const addKing = () => {
 
 onMounted(() => {
     kings.value = JSON.parse(localStorage.getItem("kings") || "[]");
+    kings.value.sort((a, b) => b.count - a.count);
     reduceTime();
 });
 </script>
