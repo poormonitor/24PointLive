@@ -1,15 +1,11 @@
 const operators = {
     "+": (x, y) => x + y,
     "-": (x, y) => x - y,
-    _: (x, y) => y - x,
     "*": (x, y) => x * y,
     "/": (x, y) => x / y,
-    "//": (x, y) => y / x,
 };
 
 const trans = {
-    _: "-",
-    "//": "/",
     "*": "*",
     "/": "/",
     "+": "+",
@@ -19,10 +15,8 @@ const trans = {
 const level = {
     "+": 0,
     "-": 0,
-    _: 0,
     "*": 1,
     "/": 1,
-    "//": 1,
 };
 
 class VNode {
@@ -55,9 +49,7 @@ class ONode {
         let le = this.left.toString();
         if (
             this.left instanceof ONode &&
-            ((["//", "_"].includes(this.op) &&
-                level[this.left.op] === level[this.op]) ||
-                level[this.left.op] < level[this.op])
+            level[this.left.op] < level[this.op]
         ) {
             le = "(" + le + ")";
         }
@@ -70,10 +62,6 @@ class ONode {
                 level[this.right.op] < level[this.op])
         ) {
             re = "(" + re + ")";
-        }
-
-        if (["_", "//"].includes(this.op)) {
-            return re + trans[this.op] + le;
         }
 
         return le + this.op + re;
